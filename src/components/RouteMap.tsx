@@ -26,7 +26,7 @@ const HTML = `<!DOCTYPE html><html><head>
 var map = L.map('map').setView([0, 0], 2);
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(map);
 var line = L.polyline([], { color: '${Colors.forest}', weight: 5 }).addTo(map);
-var me = L.circleMarker([0, 0], { radius: 8, color: '#fff', weight: 2, fillColor: '#2563eb', fillOpacity: 1 }).addTo(map);
+var me = L.circleMarker([0, 0], { radius: 8, color: '${Colors.white}', weight: 2, fillColor: '${Colors.orange}', fillOpacity: 1 }).addTo(map);
 var first = true;
 function update(d) {
   line.setLatLngs(d.pts);

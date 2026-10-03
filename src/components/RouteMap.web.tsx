@@ -44,7 +44,7 @@ export function RouteMap({ center, points, fit = false }: Props) {
       map.current = L.map(container.current).setView([center.latitude, center.longitude], 17);
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(map.current);
       line.current = L.polyline([], { color: Colors.forest, weight: 5 }).addTo(map.current);
-      marker.current = L.circleMarker([center.latitude, center.longitude], { radius: 8, color: '#fff', weight: 2, fillColor: '#2563eb', fillOpacity: 1 }).addTo(map.current);
+      marker.current = L.circleMarker([center.latitude, center.longitude], { radius: 8, color: Colors.white, weight: 2, fillColor: Colors.orange, fillOpacity: 1 }).addTo(map.current);
       setReady(true);
     }).catch((e: Error) => setError(e.message));
     return () => { cancelled = true; map.current?.remove(); map.current = null; setReady(false); };

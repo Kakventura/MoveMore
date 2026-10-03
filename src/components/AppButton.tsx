@@ -7,14 +7,18 @@ export function AppButton({ title, onPress, variant = 'primary', disabled }: Pro
   return (
     <Pressable accessibilityRole="button" disabled={disabled} onPress={onPress}
       style={[s.base, variant === 'danger' && s.danger, variant === 'outline' && s.outline, disabled && { opacity: 0.5 }]}>
-      <Text style={[s.text, variant === 'outline' && { color: Colors.forest }]}>{title}</Text>
+      <Text style={[s.text, variant === 'outline' && s.outlineText, variant === 'primary' && s.primaryText]}>
+        {title}
+      </Text>
     </Pressable>
   );
 }
 
 const s = StyleSheet.create({
-  base: { backgroundColor: Colors.forest, padding: 14, borderRadius: 8, alignItems: 'center', marginVertical: 4 },
+  base: { backgroundColor: Colors.orange, padding: 14, borderRadius: 8, alignItems: 'center', marginVertical: 4 },
   danger: { backgroundColor: Colors.danger },
   outline: { backgroundColor: 'transparent', borderWidth: 1, borderColor: Colors.forest },
   text: { color: Colors.white, fontWeight: '600', fontSize: 16 },
+  primaryText: { color: Colors.ink },
+  outlineText: { color: Colors.forest },
 });
