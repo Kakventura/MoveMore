@@ -1,5 +1,5 @@
 import { Text, View } from 'react-native';
-import type { Product } from '@/@types/reward';
+import type { Product } from '@/@types/rewards';
 import { AppButton } from '@/components/AppButton';
 import { Screen } from '@/components/Screen';
 import { Colors } from '@/constants/colors';

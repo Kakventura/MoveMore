@@ -24,6 +24,7 @@ export default function Home() {
   return (
     <Screen>
       <Text style={{ fontSize: 22, fontWeight: '700', color: Colors.ink }}>Olá, {user?.username}</Text>
+      <AppButton title="Meu perfil" variant="outline" onPress={() => router.push('/profile')} />
       <AppButton title="Gravar nova rota" onPress={() => router.push('/record')} />
       <AppButton title={`Trocar pontos (${balance} pts)`} variant="outline" onPress={() => router.push('/rewards')} />
       <AppButton title="Escolher pasta de destino" variant="outline" onPress={chooseFolder} />

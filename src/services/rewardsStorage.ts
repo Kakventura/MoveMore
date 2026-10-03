@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import type { Redemption } from '@/@types/reward';
+import type { Redemption } from '@/@types/rewards';
 
 // Histórico de trocas, separado por usuário
 const key = (userId: string) => `@diario-rotas/${userId}/redemptions`;

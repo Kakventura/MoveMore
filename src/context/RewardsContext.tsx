@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
-import type { Product, Redemption } from '@/@types/reward';
+import type { Product, Redemption } from '@/@types/rewards';
 import { useAuth } from '@/context/AuthContext';
 import { useRoutes } from '@/context/RoutesContext';
 import { loadRedemptions, saveRedemptions } from '@/services/rewardsStorage';

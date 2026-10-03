@@ -1,4 +1,4 @@
-import type { Product } from '@/@types/reward';
+import type { Product } from '@/@types/rewards';
 
 // MOCK do catálogo de produtos (simula a tabela "produtos" do banco)
 export const products: Product[] = [
