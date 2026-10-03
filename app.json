@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "name": "Diário de Rotas",
+    "slug": "diario-rotas",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "diariorotas",
+    "userInterfaceStyle": "light",
+    "android": {
+      "package": "br.fatec.diariorotas",
+      "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"]
+    },
+    "web": { "bundler": "metro", "output": "single" },
+    "plugins": [
+      "expo-router",
+      ["expo-location", { "locationWhenInUsePermission": "A localização é usada para registrar o percurso da rota." }]
+    ],
+    "experiments": { "typedRoutes": true }
+  }
+}
