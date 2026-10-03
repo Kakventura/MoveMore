@@ -1,5 +1,7 @@
-import { ActivityIndicator, Platform, Text, View } from 'react-native';
+import { ActivityIndicator, Platform, View } from 'react-native';
+import { AppText as Text } from '@/components/AppText';
 import { AppButton } from '@/components/AppButton';
+import { ProfilePhoto } from '@/components/ProfilePhoto';
 import { RouteMap } from '@/components/RouteMap';
 import { Screen } from '@/components/Screen';
 import { Colors } from '@/constants/colors';
@@ -24,24 +26,30 @@ export default function Profile() {
   const showingDemoRoutes = Platform.OS === 'web' && !loading && routes.length === 0;
   const visibleRoutes = showingDemoRoutes ? demoRoutes : routes;
   const totalDistance = routes.reduce((sum, route) => sum + route.distanceMeters, 0);
-  const initials = user?.username.slice(0, 1).toLocaleUpperCase('pt-BR') ?? '?';
+  const username = user?.username ?? 'Usuário';
 
   return (
     <Screen maxWidth={Platform.OS === 'web' ? 1120 : 560}>
       <View style={{ alignItems: 'center', marginBottom: 24 }}>
-        <View style={{
-          width: 88,
-          height: 88,
-          borderRadius: 44,
-          backgroundColor: Colors.forest,
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginBottom: 12,
-        }}>
-          <Text style={{ color: Colors.white, fontSize: 36, fontWeight: '700' }}>{initials}</Text>
-        </View>
+        {Platform.OS === 'web' && user
+          ? <ProfilePhoto userId={user.userId} username={username} />
+          : (
+            <View style={{
+              width: 96,
+              height: 96,
+              borderRadius: 48,
+              backgroundColor: Colors.forest,
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: 12,
+            }}>
+              <Text style={{ color: Colors.white, fontSize: 36, fontWeight: '700' }}>
+                {username.slice(0, 1).toLocaleUpperCase('pt-BR')}
+              </Text>
+            </View>
+          )}
         <Text style={{ color: Colors.ink, fontSize: 24, fontWeight: '700' }}>
-          {user?.username ?? 'Meu perfil'}
+          {username}
         </Text>
         <Text style={{ color: Colors.muted, marginTop: 4 }}>Seu resumo no MoveMore</Text>
       </View>

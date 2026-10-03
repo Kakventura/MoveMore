@@ -3,7 +3,7 @@ export const Colors = {
   moss: '#BD2693',
   sand: '#FFF9EC',
   ink: '#321545',
-  line: '#E8DCCB',
+  line: '#ece9e5',
   white: '#FFFFFF',
   danger: '#E84865',
   muted: '#806F7C',

@@ -1,5 +1,6 @@
 import { useRouter } from 'expo-router';
-import { ActivityIndicator, Pressable, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, View } from 'react-native';
+import { AppText as Text } from '@/components/AppText';
 import { AppButton } from '@/components/AppButton';
 import { Screen } from '@/components/Screen';
 import { useAuth } from '@/context/AuthContext';

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'expo-router';
-import { ActivityIndicator, Text } from 'react-native';
+import { ActivityIndicator } from 'react-native';
+import { AppText as Text } from '@/components/AppText';
 import { AppButton } from '@/components/AppButton';
 import { AppInput } from '@/components/AppInput';
 import { Screen } from '@/components/Screen';

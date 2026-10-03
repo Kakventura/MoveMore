@@ -1,8 +1,13 @@
 import { StyleSheet, TextInput, type TextInputProps } from 'react-native';
 import { Colors } from '@/constants/colors';
 
-export const AppInput = (props: TextInputProps) => (
-  <TextInput placeholderTextColor={Colors.muted} autoCapitalize="none" style={s.input} {...props} />
+export const AppInput = ({ style, ...props }: TextInputProps) => (
+  <TextInput
+    placeholderTextColor={Colors.muted}
+    autoCapitalize="none"
+    style={[s.input, style, { fontFamily: 'PTSansNarrow' }]}
+    {...props}
+  />
 );
 
 const s = StyleSheet.create({

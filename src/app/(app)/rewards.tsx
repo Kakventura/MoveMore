@@ -1,4 +1,5 @@
-import { Text, View } from 'react-native';
+import { Platform, useWindowDimensions, View } from 'react-native';
+import { AppText as Text } from '@/components/AppText';
 import type { Product } from '@/@types/rewards';
 import { AppButton } from '@/components/AppButton';
 import { Screen } from '@/components/Screen';
@@ -7,10 +8,23 @@ import { products } from '@/data/products';
 import { useRewards } from '@/context/RewardsContext';
 import { confirmAction, notify } from '@/utils/feedback';
 
-const card = { backgroundColor: Colors.white, borderWidth: 1, borderColor: Colors.line, borderRadius: 8, padding: 14, marginVertical: 5 };
+const card = {
+  flexGrow: 1,
+  backgroundColor: Colors.white,
+  borderWidth: 1,
+  borderColor: Colors.line,
+  borderRadius: 16,
+  padding: 16,
+  margin: 7,
+  maxWidth: 360,
+};
 
 export default function Rewards() {
   const { balance, earned, spent, redemptions, redeem } = useRewards();
+  const { width } = useWindowDimensions();
+  const isWeb = Platform.OS === 'web';
+  const columns = isWeb ? (width >= 1000 ? 3 : width >= 680 ? 2 : 1) : 1;
+  const cardWidth = isWeb ? `${100 / columns - 2}%` as `${number}%` : '100%' as const;
 
   async function handleRedeem(product: Product) {
     if (!(await confirmAction(`Trocar ${product.cost} pontos por "${product.name}"?`))) return;
@@ -21,37 +35,55 @@ export default function Rewards() {
   }
 
   return (
-    <Screen>
-      <View style={{ ...card, backgroundColor: Colors.forest, padding: 20 }}>
-        <Text style={{ color: Colors.white }}>Seu saldo</Text>
+    <Screen maxWidth={isWeb ? 1120 : 560}>
+      <View style={{ ...card, maxWidth: undefined, margin: 0, marginBottom: 14, backgroundColor: Colors.forest, padding: 20 }}>
+        <Text style={{ color: Colors.white, fontSize: 17 }}>Seu saldo</Text>
         <Text style={{ color: Colors.white, fontSize: 40, fontWeight: '700' }}>{balance} pts</Text>
-        <Text style={{ color: Colors.sand }}>{earned} ganhos · {spent} trocados</Text>
+        <Text style={{ color: Colors.sand, fontSize: 16 }}>{earned} ganhos · {spent} trocados</Text>
       </View>
-      <Text style={{ color: Colors.muted, marginVertical: 6 }}>Como ganhar: cada 10 m percorridos em uma rota valem 1 ponto.</Text>
+      <Text style={{ color: Colors.muted, fontSize: 16, marginVertical: 6 }}>Como ganhar: cada 10 m percorridos em uma rota valem 1 ponto.</Text>
 
-      <Text style={{ fontSize: 18, fontWeight: '600', marginTop: 12 }}>Produtos disponíveis</Text>
-      {products.map((p) => {
-        const missing = p.cost - balance;
-        return (
-          <View key={p.id} style={card}>
-            <Text style={{ fontSize: 16, fontWeight: '600' }}>{p.emoji} {p.name}</Text>
-            <Text style={{ color: Colors.muted, marginVertical: 4 }}>{p.description}</Text>
-            <Text style={{ fontWeight: '700', color: Colors.forest }}>{p.cost} pts</Text>
-            <AppButton
-              title={missing > 0 ? `Faltam ${missing} pts` : 'Trocar'}
-              disabled={missing > 0}
-              onPress={() => handleRedeem(p)}
-            />
-          </View>
-        );
-      })}
+      <Text style={{ fontSize: 20, fontWeight: '600', marginTop: 12 }}>Produtos disponíveis</Text>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', marginHorizontal: -7, marginTop: 8 }}>
+        {products.map((p) => {
+          const missing = p.cost - balance;
+          return (
+            <View key={p.id} style={{ ...card, width: cardWidth, maxWidth: isWeb ? 360 : undefined }}>
+              <Text style={{ color: Colors.ink, fontSize: 21, fontWeight: '700', textAlign: 'center' }}>
+                {p.name}
+              </Text>
+              <View style={{
+                height: 112,
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginVertical: 12,
+                borderRadius: 12,
+                backgroundColor: Colors.sand,
+              }}>
+                <Text style={{ fontSize: 56 }}>{p.emoji}</Text>
+              </View>
+              <Text style={{ color: Colors.muted, fontSize: 16, minHeight: 48, textAlign: 'center' }}>
+                {p.description}
+              </Text>
+              <Text style={{ color: Colors.violet, fontSize: 20, fontWeight: '700', textAlign: 'center', marginTop: 10 }}>
+                {p.cost} pts
+              </Text>
+              <AppButton
+                title={missing > 0 ? `Faltam ${missing} pts` : 'Trocar'}
+                disabled={missing > 0}
+                onPress={() => handleRedeem(p)}
+              />
+            </View>
+          );
+        })}
+      </View>
 
-      <Text style={{ fontSize: 18, fontWeight: '600', marginTop: 20 }}>Minhas trocas</Text>
-      {redemptions.length === 0 && <Text style={{ color: Colors.muted }}>Você ainda não fez nenhuma troca.</Text>}
+      <Text style={{ fontSize: 20, fontWeight: '600', marginTop: 20 }}>Minhas trocas</Text>
+      {redemptions.length === 0 && <Text style={{ color: Colors.muted, fontSize: 16 }}>Você ainda não fez nenhuma troca.</Text>}
       {redemptions.map((r) => (
-        <View key={r.id} style={card}>
-          <Text style={{ fontWeight: '600' }}>{r.productName}</Text>
-          <Text style={{ color: Colors.muted }}>{new Date(r.redeemedAt).toLocaleString('pt-BR')} · -{r.cost} pts</Text>
+        <View key={r.id} style={{ ...card, maxWidth: undefined, marginHorizontal: 0 }}>
+          <Text style={{ fontSize: 17, fontWeight: '600' }}>{r.productName}</Text>
+          <Text style={{ color: Colors.muted, fontSize: 16 }}>{new Date(r.redeemedAt).toLocaleString('pt-BR')} · -{r.cost} pts</Text>
         </View>
       ))}
     </Screen>

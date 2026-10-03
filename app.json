@@ -8,13 +8,27 @@
     "userInterfaceStyle": "light",
     "android": {
       "package": "br.fatec.diariorotas",
-      "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"]
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION"
+      ]
     },
-    "web": { "bundler": "metro", "output": "single" },
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
     "plugins": [
       "expo-router",
-      ["expo-location", { "locationWhenInUsePermission": "A localização é usada para registrar o percurso da rota." }]
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "A localização é usada para registrar o percurso da rota."
+        }
+      ],
+      "expo-font"
     ],
-    "experiments": { "typedRoutes": true }
+    "experiments": {
+      "typedRoutes": true
+    }
   }
 }

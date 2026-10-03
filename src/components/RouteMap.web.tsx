@@ -1,5 +1,5 @@
 import { createElement, useEffect, useRef, useState } from 'react';
-import { Text } from 'react-native';
+import { AppText as Text } from '@/components/AppText';
 import type { RoutePoint } from '@/@types/route';
 import { Colors } from '@/constants/colors';
 

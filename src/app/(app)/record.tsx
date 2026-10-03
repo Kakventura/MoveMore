@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'expo-router';
-import { ActivityIndicator, Platform, Text } from 'react-native';
+import { ActivityIndicator, Platform } from 'react-native';
+import { AppText as Text } from '@/components/AppText';
 import type { LocationSubscription } from 'expo-location';
 import type { RoutePoint } from '@/@types/route';
 import { AppButton } from '@/components/AppButton';

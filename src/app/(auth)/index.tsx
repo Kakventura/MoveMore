@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { Platform, useWindowDimensions, ActivityIndicator, Animated, Pressable, Text, View } from 'react-native';
+import { Platform, useWindowDimensions, ActivityIndicator, Animated, Pressable, View } from 'react-native';
+import { AppText as Text } from '@/components/AppText';
 import { AppInput } from '@/components/AppInput';
 import { Screen } from '@/components/Screen';
 import { useAuth } from '@/context/AuthContext';
@@ -60,7 +61,7 @@ function HoverAction({
         marginTop: 12,
       }}
     >
-      <Animated.Text style={{ color: foreground, fontSize: 16, fontWeight: '700' }}>
+      <Animated.Text style={{ color: foreground, fontSize: 16, fontWeight: '700', fontFamily: 'PTSansNarrowBold' }}>
         {title}
       </Animated.Text>
     </AnimatedPressable>
@@ -196,9 +197,14 @@ export default function Login() {
   );
 
   const formContent = (
-    <View style={{ width: '100%', maxWidth: 460, alignSelf: 'center', padding: isWideWeb ? 44 : 24 }}>
+    <View style={{
+      width: '100%',
+      maxWidth: 460,
+      alignSelf: 'center',
+      padding: isWideWeb ? 40 : 15,
+    }}>
       <Text style={{ color: Colors.ink, fontSize: 28, fontWeight: '800', textAlign: 'center', marginBottom: 8 }}>
-        {registering ? 'Crie sua conta' : 'Bem-vindo de volta'}
+        {registering ? 'Crie sua conta' : 'Bem-vindo(a) de volta!'}
       </Text>
       <Text style={{ color: Colors.muted, fontSize: 15, textAlign: 'center', marginBottom: 22 }}>
         {registering ? 'Comece a registrar seus caminhos e conquistas.' : 'Entre para acompanhar suas rotas e recompensas.'}
@@ -229,18 +235,24 @@ export default function Login() {
   const brandPanel = (
     <View style={{
       flex: 1,
+      width: '100%',
       minHeight: isWideWeb ? 600 : undefined,
       alignItems: 'center',
       justifyContent: 'center',
       padding: 24,
-      backgroundColor: Colors.forest,
+      backgroundColor: Colors.ink,
     }}>
-      <FloatingLogo width={isWideWeb ? 340 : 280} height={isWideWeb ? 320 : 240} />
-      <Text style={{ color: Colors.white, fontSize: 16, fontWeight: '600', marginTop: 16, textAlign: 'center' }}>
+      <View style={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
+        <FloatingLogo
+          width={isWideWeb ? 400 : 300}
+          height={isWideWeb ? 400 : 300}
+        />
+      </View>
+      <Text style={{ color: Colors.white, fontSize: 18, fontWeight: '600', marginTop: 16, textAlign: 'center' }}>
         Diário de Rotas e Recompensas
       </Text>
       {isWideWeb && (
-        <Text style={{ color: Colors.sand, fontSize: 15, marginTop: 10, textAlign: 'center' }}>
+        <Text style={{ color: Colors.sand, fontSize: 20, marginTop: 10, textAlign: 'center' }}>
           Cada caminho conta. Continue em movimento!
         </Text>
       )}

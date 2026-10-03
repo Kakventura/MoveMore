@@ -1,4 +1,5 @@
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
+import { AppText as Text } from '@/components/AppText';
 import { Colors } from '@/constants/colors';
 
 interface Props { title: string; onPress: () => void; variant?: 'primary' | 'danger' | 'outline'; disabled?: boolean }

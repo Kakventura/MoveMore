@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Text } from 'react-native';
+import { AppText as Text } from '@/components/AppText';
 import { AppButton } from '@/components/AppButton';
 import { AppInput } from '@/components/AppInput';
 import { RouteMap } from '@/components/RouteMap';
