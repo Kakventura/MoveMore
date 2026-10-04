@@ -25,15 +25,15 @@ export default function Profile() {
 
   return (
     <Screen maxWidth={Platform.OS === 'web' ? 1120 : 560}>
-      <Card style={{ padding: 0, overflow: 'hidden', alignItems: 'center', marginTop: 0 }}>
-        <View style={{ height: 110, width: '100%', backgroundColor: Colors.forest, overflow: 'hidden' }}>
+      <Card style={{ padding: 0, alignItems: 'center', marginTop: 0 }}>
+        <View style={{ height: 110, width: '100%', backgroundColor: Colors.forest, overflow: 'hidden', borderTopLeftRadius: Radius.lg - 1, borderTopRightRadius: Radius.lg - 1 }}>
           <View style={{ position: 'absolute', right: -30, top: -50, width: 170, height: 170, borderRadius: 85, backgroundColor: Colors.orange, opacity: 0.9 }} />
           <View style={{ position: 'absolute', left: -40, bottom: -70, width: 160, height: 160, borderRadius: 80, backgroundColor: Colors.magenta, opacity: 0.6 }} />
         </View>
-        <View style={{ width: 108, height: 108, borderRadius: 54, backgroundColor: Colors.white, alignItems: 'center', paddingTop: 6, marginTop: -54 }}>
+        <View style={{ width: 108, height: 108, borderRadius: 54, backgroundColor: Colors.white, alignItems: 'center', paddingTop: 6, marginTop: -54, zIndex: 10 }}>
           {user && <ProfilePhoto userId={user.userId} username={username} />}
         </View>
-        <Text style={{ color: Colors.ink, fontSize: 28, fontWeight: '700' }}>{username}</Text>
+        <Text style={{ color: Colors.ink, fontSize: 28, fontWeight: '700', marginTop: 8 }}>{username}</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 6, marginBottom: 20, backgroundColor: '#F3E8FA', borderRadius: Radius.sm, paddingHorizontal: 12, paddingVertical: 6 }}>
           <Icon name="star-circle" size={18} color={Colors.orange} />
           <Text style={{ color: Colors.violet, fontSize: 16, fontWeight: '700' }}>{balance} pontos disponíveis</Text>

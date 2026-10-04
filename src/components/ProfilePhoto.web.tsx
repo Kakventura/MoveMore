@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ChangeEvent, type CSSProperties } from 'react';
+import { createPortal } from 'react-dom';
 import { Icon } from '@/components/Icon';
 import { Colors } from '@/constants/colors';
 
@@ -19,6 +20,46 @@ const optionStyle: CSSProperties = {
   fontWeight: 600,
   cursor: 'pointer',
   textAlign: 'left',
+};
+
+const overlayStyle: CSSProperties = {
+  position: 'fixed',
+  inset: 0,
+  zIndex: 1000,
+  background: 'rgba(42,18,56,0.72)',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: 16,
+};
+
+const panelStyle: CSSProperties = {
+  background: Colors.white,
+  borderRadius: 24,
+  padding: 18,
+  width: '100%',
+  maxWidth: 400,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 10,
+  boxShadow: '0 20px 50px rgba(0,0,0,0.35)',
+};
+
+const titleStyle: CSSProperties = {
+  fontFamily: 'PTSansNarrowBold',
+  fontSize: 22,
+  color: Colors.ink,
+  textAlign: 'center',
+  marginBottom: 4,
+};
+
+const bigButton: CSSProperties = {
+  ...optionStyle,
+  minHeight: 48,
+  borderRadius: 14,
+  fontSize: 18,
+  textAlign: 'center',
+  background: '#EFE6F6',
 };
 
 export function ProfilePhoto({ userId, username }: Props) {
@@ -147,87 +188,76 @@ export function ProfilePhoto({ userId, username }: Props) {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
-      <div style={{ position: 'relative', width: 96, height: 96 }}>
-        {photo ? (
-          <img
-            src={photo}
-            alt={`Foto de perfil de ${username}`}
-            style={{
-              width: 96,
-              height: 96,
-              borderRadius: '50%',
-              objectFit: 'cover',
-              border: `3px solid ${Colors.orange}`,
-            }}
-          />
-        ) : (
-          <div style={{
+    <div style={{ position: 'relative', width: 96, height: 96, marginBottom: 12 }}>
+      {photo ? (
+        <img
+          src={photo}
+          alt={`Foto de perfil de ${username}`}
+          style={{
             width: 96,
             height: 96,
             borderRadius: '50%',
-            background: Colors.forest,
-            color: Colors.white,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontFamily: 'PTSansNarrowBold',
-            fontSize: 36,
-          }}>
-            {initials}
-          </div>
-        )}
-        <button
-          type="button"
-          aria-label="Opções da foto de perfil"
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((open) => !open)}
-          style={{
-            position: 'absolute',
-            right: -2,
-            bottom: -2,
-            width: 34,
-            height: 34,
-            padding: 0,
-            borderRadius: 17,
-            border: `2px solid ${Colors.white}`,
-            background: Colors.orange,
-            color: Colors.ink,
-            fontSize: 16,
-            lineHeight: '30px',
-            cursor: 'pointer',
-            boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
+            objectFit: 'cover',
+            border: `3px solid ${Colors.orange}`,
+            boxSizing: 'border-box',
           }}
-        >
-          <Icon name="camera" size={18} color={Colors.ink} style={{ verticalAlign: 'middle' }} />
-        </button>
-        {menuOpen && (
-          <div
-            role="menu"
-            style={{
-              position: 'absolute',
-              zIndex: 10,
-              top: 104,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 2,
-              minWidth: 156,
-              padding: 5,
-              borderRadius: 10,
-              background: Colors.white,
-              border: `1px solid ${Colors.line}`,
-              boxShadow: '0 6px 18px rgba(0,0,0,0.16)',
-            }}
-          >
-            <button type="button" role="menuitem" style={optionStyle} onClick={startCamera}>
+        />
+      ) : (
+        <div style={{
+          width: 96,
+          height: 96,
+          borderRadius: '50%',
+          background: Colors.forest,
+          color: Colors.white,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontFamily: 'PTSansNarrowBold',
+          fontSize: 36,
+        }}>
+          {initials}
+        </div>
+      )}
+      <button
+        type="button"
+        aria-label="Opções da foto de perfil"
+        aria-expanded={menuOpen}
+        onClick={() => setMenuOpen((open) => !open)}
+        style={{
+          position: 'absolute',
+          right: -2,
+          bottom: -2,
+          width: 34,
+          height: 34,
+          padding: 0,
+          borderRadius: 17,
+          border: `2px solid ${Colors.white}`,
+          background: Colors.orange,
+          color: Colors.ink,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
+        }}
+      >
+        <Icon name="camera" size={18} color={Colors.ink} />
+      </button>
+
+      <input ref={fileRef} type="file" accept="image/*" onChange={handleFile} style={{ display: 'none' }} />
+
+      {/* Menu de opções: janela por cima de tudo (portal para o <body>) */}
+      {menuOpen && createPortal(
+        <div style={overlayStyle} onClick={() => setMenuOpen(false)}>
+          <div role="menu" style={panelStyle} onClick={(e) => e.stopPropagation()}>
+            <div style={titleStyle}>Foto de perfil</div>
+            <button type="button" role="menuitem" style={bigButton} onClick={startCamera}>
               Tirar foto
             </button>
             <button
               type="button"
               role="menuitem"
-              style={optionStyle}
+              style={bigButton}
               onClick={() => {
                 setMenuOpen(false);
                 fileRef.current?.click();
@@ -236,48 +266,81 @@ export function ProfilePhoto({ userId, username }: Props) {
               Escolher foto
             </button>
             {photo && (
-              <button
-                type="button"
-                role="menuitem"
-                style={{ ...optionStyle, color: Colors.danger }}
-                onClick={removePhoto}
-              >
+              <button type="button" role="menuitem" style={{ ...bigButton, color: Colors.danger }} onClick={removePhoto}>
                 Remover foto
               </button>
             )}
+            <button type="button" style={{ ...bigButton, background: Colors.white, border: `1.5px solid ${Colors.line}` }} onClick={() => setMenuOpen(false)}>
+              Cancelar
+            </button>
+            <div style={{ color: Colors.muted, fontSize: 14, textAlign: 'center', fontFamily: 'PTSansNarrow' }}>
+              A foto fica salva só neste navegador.
+            </div>
           </div>
-        )}
-      </div>
-      <input
-        ref={fileRef}
-        type="file"
-        accept="image/*"
-        onChange={handleFile}
-        style={{ display: 'none' }}
-      />
-      {cameraOpen && (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
-          <video
-            ref={videoRef}
-            autoPlay
-            playsInline
-            muted
-            style={{ width: 260, maxWidth: '100%', borderRadius: 12, background: Colors.ink }}
-          />
-          <div style={{ display: 'flex', gap: 8 }}>
-            <button type="button" style={optionStyle} onClick={capturePhoto}>Capturar</button>
-            <button type="button" style={optionStyle} onClick={stopCamera}>Cancelar</button>
-          </div>
-        </div>
+        </div>,
+        document.body,
       )}
-      {error ? (
-        <div role="alert" style={{ color: Colors.danger, textAlign: 'center', maxWidth: 320 }}>
-          {error}
-        </div>
+
+      {/* Câmera: janela por cima de tudo */}
+      {cameraOpen && createPortal(
+        <div style={overlayStyle}>
+          <div style={panelStyle}>
+            <div style={titleStyle}>Tirar foto de perfil</div>
+            <video
+              ref={videoRef}
+              autoPlay
+              playsInline
+              muted
+              style={{ width: '100%', borderRadius: 16, background: Colors.ink, transform: 'scaleX(-1)' }}
+            />
+            <div style={{ display: 'flex', gap: 10 }}>
+              <button type="button" style={{ ...bigButton, flex: 1, background: Colors.orange, color: Colors.ink }} onClick={capturePhoto}>
+                Capturar
+              </button>
+              <button type="button" style={{ ...bigButton, flex: 1 }} onClick={stopCamera}>
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body,
+      )}
+
+      {/* Erro: aviso flutuante na parte de baixo da tela */}
+      {error ? createPortal(
+        <div
+          role="alert"
+          style={{
+            position: 'fixed',
+            left: '50%',
+            bottom: 24,
+            transform: 'translateX(-50%)',
+            zIndex: 2000,
+            maxWidth: 'calc(100vw - 32px)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 12,
+            padding: '12px 16px',
+            borderRadius: 14,
+            background: Colors.danger,
+            color: Colors.white,
+            fontFamily: 'PTSansNarrow',
+            fontSize: 16,
+            boxShadow: '0 8px 24px rgba(0,0,0,0.25)',
+          }}
+        >
+          <span>{error}</span>
+          <button
+            type="button"
+            aria-label="Fechar aviso"
+            onClick={() => setError('')}
+            style={{ border: 'none', background: 'rgba(255,255,255,0.25)', color: Colors.white, borderRadius: 8, padding: '4px 10px', cursor: 'pointer', fontFamily: 'PTSansNarrow', fontSize: 15 }}
+          >
+            OK
+          </button>
+        </div>,
+        document.body,
       ) : null}
-      <div style={{ color: Colors.muted, fontSize: 14, textAlign: 'center' }}>
-        A foto é salva somente neste navegador.
-      </div>
     </div>
   );
 }
