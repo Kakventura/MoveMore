@@ -3,20 +3,22 @@ import { AppText as Text } from '@/components/AppText';
 import type { Product } from '@/@types/rewards';
 import { AppButton } from '@/components/AppButton';
 import { Screen } from '@/components/Screen';
-import { Colors } from '@/constants/colors';
+import { Colors, Radius, Shadow } from '@/constants/colors';
 import { products } from '@/data/products';
 import { useRewards } from '@/context/RewardsContext';
 import { confirmAction, notify } from '@/utils/feedback';
+import { Icon } from '@/components/Icon';
 
 const card = {
   flexGrow: 1,
   backgroundColor: Colors.white,
   borderWidth: 1,
   borderColor: Colors.line,
-  borderRadius: 16,
-  padding: 16,
+  borderRadius: Radius.lg,
+  padding: 18,
   margin: 7,
   maxWidth: 360,
+  ...Shadow,
 };
 
 export default function Rewards() {
@@ -36,9 +38,10 @@ export default function Rewards() {
 
   return (
     <Screen maxWidth={isWeb ? 1120 : 560}>
-      <View style={{ ...card, maxWidth: undefined, margin: 0, marginBottom: 14, backgroundColor: Colors.forest, padding: 20 }}>
+      <View style={{ ...card, maxWidth: undefined, margin: 0, marginBottom: 14, backgroundColor: Colors.forest, padding: 24, overflow: 'hidden', shadowOpacity: 0.2 }}>
+        <View style={{ position: 'absolute', right: -30, top: -30, width: 140, height: 140, borderRadius: 70, backgroundColor: Colors.orange, opacity: 0.9 }} />
         <Text style={{ color: Colors.white, fontSize: 17 }}>Seu saldo</Text>
-        <Text style={{ color: Colors.white, fontSize: 40, fontWeight: '700' }}>{balance} pts</Text>
+        <Text style={{ color: Colors.white, fontSize: 48, fontWeight: '700' }}>{balance} pts</Text>
         <Text style={{ color: Colors.sand, fontSize: 16 }}>{earned} ganhos · {spent} trocados</Text>
       </View>
       <Text style={{ color: Colors.muted, fontSize: 16, marginVertical: 6 }}>Como ganhar: cada 10 m percorridos em uma rota valem 1 ponto.</Text>
@@ -57,10 +60,10 @@ export default function Rewards() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 marginVertical: 12,
-                borderRadius: 12,
-                backgroundColor: Colors.sand,
+                borderRadius: Radius.md,
+                backgroundColor: '#F3E8FA',
               }}>
-                <Text style={{ fontSize: 56 }}>{p.emoji}</Text>
+                <Icon name={p.icon} size={56} color={Colors.violet} />
               </View>
               <Text style={{ color: Colors.muted, fontSize: 16, minHeight: 48, textAlign: 'center' }}>
                 {p.description}

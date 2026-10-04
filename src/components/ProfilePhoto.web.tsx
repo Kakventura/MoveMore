@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ChangeEvent, type CSSProperties } from 'react';
+import { Icon } from '@/components/Icon';
 import { Colors } from '@/constants/colors';
 
 interface Props {
@@ -198,7 +199,7 @@ export function ProfilePhoto({ userId, username }: Props) {
             boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
           }}
         >
-          📷
+          <Icon name="camera" size={18} color={Colors.ink} style={{ verticalAlign: 'middle' }} />
         </button>
         {menuOpen && (
           <div

@@ -3,6 +3,7 @@ import { Alert, Image, Pressable, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ImagePicker from 'expo-image-picker';
 import { AppText as Text } from '@/components/AppText';
+import { Icon } from '@/components/Icon';
 import { Colors } from '@/constants/colors';
 import { notify } from '@/utils/feedback';
 
@@ -126,7 +127,7 @@ export function ProfilePhoto({ userId, username }: Props) {
           elevation: 3,
         }}
       >
-        <Text style={{ fontSize: 16 }}>📷</Text>
+        <Icon name="camera" size={18} color={Colors.ink} />
       </Pressable>
     </View>
   );

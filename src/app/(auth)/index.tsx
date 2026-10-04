@@ -54,7 +54,7 @@ function HoverAction({
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: 18,
-        borderRadius: 18,
+        borderRadius: 16,
         backgroundColor: background,
         borderWidth: outlined ? 2 : 0,
         borderColor: textColor,
@@ -65,6 +65,29 @@ function HoverAction({
         {title}
       </Animated.Text>
     </AnimatedPressable>
+  );
+}
+
+function PasswordField({ value, onChangeText }: { value: string; onChangeText: (v: string) => void }) {
+  const [visible, setVisible] = useState(false);
+  return (
+    <View>
+      <AppInput
+        placeholder="Senha"
+        secureTextEntry={!visible}
+        value={value}
+        onChangeText={onChangeText}
+        style={{ ...inputStyle, paddingRight: 92 }}
+      />
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={visible ? 'Ocultar senha' : 'Mostrar senha'}
+        onPress={() => setVisible((v) => !v)}
+        style={{ position: 'absolute', right: 6, top: 0, bottom: 0, justifyContent: 'center', paddingHorizontal: 14 }}
+      >
+        <Text style={{ color: Colors.violet, fontWeight: '700', fontSize: 15 }}>{visible ? 'Ocultar' : 'Mostrar'}</Text>
+      </Pressable>
+    </View>
   );
 }
 
@@ -153,13 +176,7 @@ export default function Login() {
         onChangeText={set('username')}
         style={inputStyle}
       />
-      <AppInput
-        placeholder="Senha"
-        secureTextEntry
-        value={form.password}
-        onChangeText={set('password')}
-        style={inputStyle}
-      />
+      <PasswordField value={form.password} onChangeText={set('password')} />
     </>
   );
 
@@ -186,13 +203,7 @@ export default function Login() {
         onChangeText={set('cep')}
         style={inputStyle}
       />
-      <AppInput
-        placeholder="Senha"
-        secureTextEntry
-        value={form.password}
-        onChangeText={set('password')}
-        style={inputStyle}
-      />
+      <PasswordField value={form.password} onChangeText={set('password')} />
     </>
   );
 
@@ -203,10 +214,10 @@ export default function Login() {
       alignSelf: 'center',
       padding: isWideWeb ? 40 : 15,
     }}>
-      <Text style={{ color: Colors.ink, fontSize: 28, fontWeight: '800', textAlign: 'center', marginBottom: 8 }}>
+      <Text style={{ color: Colors.ink, fontSize: 32, fontWeight: '800', textAlign: 'center', marginBottom: 6 }}>
         {registering ? 'Crie sua conta' : 'Bem-vindo(a) de volta!'}
       </Text>
-      <Text style={{ color: Colors.muted, fontSize: 15, textAlign: 'center', marginBottom: 22 }}>
+      <Text style={{ color: Colors.muted, fontSize: 17, textAlign: 'center', marginBottom: 20 }}>
         {registering ? 'Comece a registrar seus caminhos e conquistas.' : 'Entre para acompanhar suas rotas e recompensas.'}
       </Text>
 
@@ -240,19 +251,22 @@ export default function Login() {
       alignItems: 'center',
       justifyContent: 'center',
       padding: 24,
-      backgroundColor: Colors.ink,
+      overflow: 'hidden',
+      backgroundColor: '#F3E8FA',
     }}>
+      <View style={{ position: 'absolute', top: -70, right: -60, width: 220, height: 220, borderRadius: 110, backgroundColor: Colors.orange, opacity: 0.85 }} />
+      <View style={{ position: 'absolute', bottom: -90, left: -70, width: 240, height: 240, borderRadius: 120, backgroundColor: Colors.magenta, opacity: 0.22 }} />
       <View style={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
         <FloatingLogo
-          width={isWideWeb ? 400 : 300}
-          height={isWideWeb ? 400 : 300}
+          width={isWideWeb ? 340 : 190}
+          height={isWideWeb ? 340 : 190}
         />
       </View>
-      <Text style={{ color: Colors.white, fontSize: 18, fontWeight: '600', marginTop: 16, textAlign: 'center' }}>
+      <Text style={{ color: Colors.forest, fontSize: 20, fontWeight: '700', marginTop: 8, textAlign: 'center' }}>
         Diário de Rotas e Recompensas
       </Text>
       {isWideWeb && (
-        <Text style={{ color: Colors.sand, fontSize: 20, marginTop: 10, textAlign: 'center' }}>
+        <Text style={{ color: Colors.violet, fontSize: 19, marginTop: 10, textAlign: 'center' }}>
           Cada caminho conta. Continue em movimento!
         </Text>
       )}
@@ -327,10 +341,10 @@ export default function Login() {
 }
 
 const inputStyle = {
-  minHeight: 64,
+  minHeight: 58,
   paddingHorizontal: 18,
-  borderWidth: 2,
-  borderRadius: 20,
-  marginVertical: 9,
+  borderWidth: 1.5,
+  borderRadius: 16,
+  marginVertical: 7,
   backgroundColor: Colors.sand,
 };

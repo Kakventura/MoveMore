@@ -1,14 +1,15 @@
 import { Pressable, StyleSheet } from 'react-native';
 import { AppText as Text } from '@/components/AppText';
-import { Colors } from '@/constants/colors';
+import { Colors, Radius } from '@/constants/colors';
 
-interface Props { title: string; onPress: () => void; variant?: 'primary' | 'danger' | 'outline'; disabled?: boolean }
+interface Props { title: string; onPress: () => void; variant?: 'primary' | 'danger' | 'outline' | 'soft'; disabled?: boolean }
 
 export function AppButton({ title, onPress, variant = 'primary', disabled }: Props) {
   return (
     <Pressable accessibilityRole="button" disabled={disabled} onPress={onPress}
-      style={[s.base, variant === 'danger' && s.danger, variant === 'outline' && s.outline, disabled && { opacity: 0.5 }]}>
-      <Text style={[s.text, variant === 'outline' && s.outlineText, variant === 'primary' && s.primaryText]}>
+      style={({ pressed }) => [s.base, variant === 'danger' && s.danger, variant === 'outline' && s.outline,
+        variant === 'soft' && s.soft, pressed && { opacity: 0.85, transform: [{ scale: 0.98 }] }, disabled && { opacity: 0.45 }]}>
+      <Text style={[s.text, variant === 'primary' && s.primaryText, (variant === 'outline' || variant === 'soft') && s.darkText]}>
         {title}
       </Text>
     </Pressable>
@@ -16,10 +17,11 @@ export function AppButton({ title, onPress, variant = 'primary', disabled }: Pro
 }
 
 const s = StyleSheet.create({
-  base: { backgroundColor: Colors.orange, padding: 14, borderRadius: 8, alignItems: 'center', marginVertical: 4 },
+  base: { backgroundColor: Colors.orange, minHeight: 52, paddingHorizontal: 18, borderRadius: Radius.md, alignItems: 'center', justifyContent: 'center', marginVertical: 5 },
   danger: { backgroundColor: Colors.danger },
-  outline: { backgroundColor: 'transparent', borderWidth: 1, borderColor: Colors.forest },
-  text: { color: Colors.white, fontWeight: '600', fontSize: 16 },
+  outline: { backgroundColor: Colors.white, borderWidth: 1.5, borderColor: Colors.forest },
+  soft: { backgroundColor: '#EFE6F6' },
+  text: { color: Colors.white, fontWeight: '700', fontSize: 17 },
   primaryText: { color: Colors.ink },
-  outlineText: { color: Colors.forest },
+  darkText: { color: Colors.forest },
 });

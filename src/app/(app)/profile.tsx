@@ -1,23 +1,18 @@
 import { ActivityIndicator, Platform, View } from 'react-native';
 import { AppText as Text } from '@/components/AppText';
 import { AppButton } from '@/components/AppButton';
+import { Card } from '@/components/Card';
+import { Icon } from '@/components/Icon';
 import { ProfilePhoto } from '@/components/ProfilePhoto';
 import { RouteMap } from '@/components/RouteMap';
 import { Screen } from '@/components/Screen';
-import { Colors } from '@/constants/colors';
+import { StatTile } from '@/components/StatTile';
+import { Colors, Radius } from '@/constants/colors';
 import { useAuth } from '@/context/AuthContext';
 import { useRewards } from '@/context/RewardsContext';
 import { useRoutes } from '@/context/RoutesContext';
 import { demoRoutes } from '@/data/demoRoutes';
 import { formatDistance } from '@/utils/distance';
-
-const card = {
-  backgroundColor: Colors.white,
-  borderWidth: 1,
-  borderColor: Colors.line,
-  borderRadius: 10,
-  padding: 16,
-};
 
 export default function Profile() {
   const { user, signOut } = useAuth();
@@ -30,83 +25,71 @@ export default function Profile() {
 
   return (
     <Screen maxWidth={Platform.OS === 'web' ? 1120 : 560}>
-      <View style={{ alignItems: 'center', marginBottom: 24 }}>
-        {user && <ProfilePhoto userId={user.userId} username={username} />}
-        <Text style={{ color: Colors.ink, fontSize: 24, fontWeight: '700' }}>
-          {username}
-        </Text>
-        <Text style={{ color: Colors.muted, marginTop: 4 }}>Seu resumo no MoveMore</Text>
+      <Card style={{ padding: 0, overflow: 'hidden', alignItems: 'center', marginTop: 0 }}>
+        <View style={{ height: 110, width: '100%', backgroundColor: Colors.forest, overflow: 'hidden' }}>
+          <View style={{ position: 'absolute', right: -30, top: -50, width: 170, height: 170, borderRadius: 85, backgroundColor: Colors.orange, opacity: 0.9 }} />
+          <View style={{ position: 'absolute', left: -40, bottom: -70, width: 160, height: 160, borderRadius: 80, backgroundColor: Colors.magenta, opacity: 0.6 }} />
+        </View>
+        <View style={{ width: 108, height: 108, borderRadius: 54, backgroundColor: Colors.white, alignItems: 'center', paddingTop: 6, marginTop: -54 }}>
+          {user && <ProfilePhoto userId={user.userId} username={username} />}
+        </View>
+        <Text style={{ color: Colors.ink, fontSize: 28, fontWeight: '700' }}>{username}</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 6, marginBottom: 20, backgroundColor: '#F3E8FA', borderRadius: Radius.sm, paddingHorizontal: 12, paddingVertical: 6 }}>
+          <Icon name="star-circle" size={18} color={Colors.orange} />
+          <Text style={{ color: Colors.violet, fontSize: 16, fontWeight: '700' }}>{balance} pontos disponíveis</Text>
+        </View>
+      </Card>
+
+      <Text style={{ color: Colors.ink, fontSize: 22, fontWeight: '700', marginTop: 20, marginBottom: 8 }}>Minha atividade</Text>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
+        <StatTile icon="map-marker-path" label="Rotas salvas" value={String(routes.length)} />
+        <StatTile icon="walk" label="Distância total" value={formatDistance(totalDistance)} />
+        <StatTile icon="star-circle" label="Pontos ganhos" value={String(earned)} />
+        <StatTile icon="gift-outline" label="Trocas feitas" value={String(redemptions.length)} />
       </View>
 
-      <Text style={{ color: Colors.ink, fontSize: 18, fontWeight: '600', marginBottom: 10 }}>
-        Minha atividade
+      <Text style={{ color: Colors.ink, fontSize: 22, fontWeight: '700', marginTop: 28, marginBottom: 6 }}>
+        {showingDemoRoutes ? 'Trajetos de exemplo' : 'Caminhos das minhas rotas'}
       </Text>
-      <View style={{ flexDirection: 'row', gap: 10, marginBottom: 10 }}>
-        <View style={{ ...card, flex: 1 }}>
-          <Text style={{ color: Colors.muted }}>Rotas salvas</Text>
-          <Text style={{ color: Colors.forest, fontSize: 24, fontWeight: '700', marginTop: 6 }}>
-            {routes.length}
+      {showingDemoRoutes && (
+        <Card style={{ flexDirection: 'row', gap: 10, alignItems: 'flex-start' }}>
+          <Icon name="information-outline" size={22} color={Colors.violet} />
+          <Text style={{ color: Colors.muted, fontSize: 15, flex: 1 }}>
+            Estes caminhos são fictícios e servem apenas para demonstrar os mapas. Rotas gravadas no celular não são sincronizadas com este navegador.
           </Text>
-        </View>
-        <View style={{ ...card, flex: 1 }}>
-          <Text style={{ color: Colors.muted }}>Distância total</Text>
-          <Text style={{ color: Colors.forest, fontSize: 20, fontWeight: '700', marginTop: 6 }}>
-            {formatDistance(totalDistance)}
-          </Text>
-        </View>
-      </View>
-      <View style={{ flexDirection: 'row', gap: 10, marginBottom: 24 }}>
-        <View style={{ ...card, flex: 1 }}>
-          <Text style={{ color: Colors.muted }}>Pontos ganhos</Text>
-          <Text style={{ color: Colors.forest, fontSize: 24, fontWeight: '700', marginTop: 6 }}>
-            {earned}
-          </Text>
-        </View>
-        <View style={{ ...card, flex: 1 }}>
-          <Text style={{ color: Colors.muted }}>Pontos disponíveis</Text>
-          <Text style={{ color: Colors.forest, fontSize: 24, fontWeight: '700', marginTop: 6 }}>
-            {balance}
-          </Text>
-        </View>
-      </View>
-
-      <View style={card}>
-        <Text style={{ color: Colors.ink, fontWeight: '600' }}>Trocas realizadas</Text>
-        <Text style={{ color: Colors.muted, marginTop: 4 }}>
-          {redemptions.length === 1
-            ? '1 produto resgatado'
-            : `${redemptions.length} produtos resgatados`}
-        </Text>
-      </View>
-
-      <View style={{ marginTop: 24 }}>
-        <AppButton title="Sair da conta" variant="outline" onPress={signOut} />
-      </View>
-
-      <View style={{ marginTop: 32 }}>
-          <Text style={{ color: Colors.ink, fontSize: 20, fontWeight: '700', marginBottom: 12 }}>
-            {showingDemoRoutes ? 'Trajetos de exemplo' : 'Caminhos das minhas rotas'}
-          </Text>
-          {showingDemoRoutes && (
-            <Text style={{ color: Colors.muted, marginBottom: 12 }}>
-              Estes caminhos são fictícios e servem apenas para demonstrar os mapas. Rotas gravadas no celular não são sincronizadas com este navegador.
-            </Text>
-          )}
-          {loading && <ActivityIndicator color={Colors.forest} />}
-          {!loading && visibleRoutes.map((route) => (
-            <View key={route.id} style={{ ...card, marginBottom: 16 }}>
-              <Text style={{ color: Colors.ink, fontSize: 17, fontWeight: '600' }}>{route.name}</Text>
-              <Text style={{ color: Colors.muted, marginTop: 4, marginBottom: 12 }}>
-                {new Date(route.createdAt).toLocaleString('pt-BR')} · {formatDistance(route.distanceMeters)}
-              </Text>
-              {route.points.length > 1 ? (
-                <RouteMap center={route.points[0]} points={route.points} fit />
-              ) : (
-                <Text style={{ color: Colors.muted }}>Esta rota não tem pontos suficientes para exibir o caminho.</Text>
-              )}
-              {route.notes ? <Text style={{ color: Colors.muted }}>{route.notes}</Text> : null}
+        </Card>
+      )}
+      {loading && <ActivityIndicator color={Colors.forest} />}
+      {!loading && visibleRoutes.length === 0 && (
+        <Card style={{ alignItems: 'center' }}>
+          <Icon name="routes" size={36} color={Colors.muted} />
+          <Text style={{ color: Colors.muted, fontSize: 16, marginTop: 6, textAlign: 'center' }}>Suas rotas gravadas vão aparecer aqui.</Text>
+        </Card>
+      )}
+      {!loading && visibleRoutes.map((route) => (
+        <Card key={route.id}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
+            <View style={{ flex: 1 }}>
+              <Text style={{ color: Colors.ink, fontSize: 18, fontWeight: '700' }}>{route.name}</Text>
+              <Text style={{ color: Colors.muted, fontSize: 15 }}>{new Date(route.createdAt).toLocaleDateString('pt-BR')}</Text>
             </View>
-          ))}
+            <View style={{ backgroundColor: '#F3E8FA', borderRadius: Radius.sm, paddingHorizontal: 12, paddingVertical: 8 }}>
+              <Text style={{ color: Colors.violet, fontWeight: '700', fontSize: 16 }}>{formatDistance(route.distanceMeters)}</Text>
+            </View>
+          </View>
+          <View style={{ marginTop: 12, borderRadius: Radius.md, overflow: 'hidden' }}>
+            {route.points.length > 1 ? (
+              <RouteMap center={route.points[0]} points={route.points} fit />
+            ) : (
+              <Text style={{ color: Colors.muted }}>Esta rota não tem pontos suficientes para exibir o caminho.</Text>
+            )}
+          </View>
+          {route.notes ? <Text style={{ color: Colors.muted, fontSize: 15, marginTop: 10 }}>{route.notes}</Text> : null}
+        </Card>
+      ))}
+
+      <View style={{ marginTop: 20 }}>
+        <AppButton title="Sair da conta" variant="outline" onPress={signOut} />
       </View>
     </Screen>
   );

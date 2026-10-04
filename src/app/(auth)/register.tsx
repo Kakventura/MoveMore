@@ -30,13 +30,13 @@ export default function Register() {
 
   return (
     <Screen>
-      <Text style={{ fontSize: 26, fontWeight: '700', color: Colors.forest, marginTop: 40, marginBottom: 12 }}>Criar conta</Text>
+      <Text style={{ fontSize: 32, fontWeight: '700', color: Colors.forest, marginTop: 40, marginBottom: 16 }}>Criar conta</Text>
       <AppInput placeholder="Usuário" value={form.username} onChangeText={set('username')} />
       <AppInput placeholder="E-mail" keyboardType="email-address" value={form.email} onChangeText={set('email')} />
       <AppInput placeholder="CEP (somente números)" keyboardType="number-pad" maxLength={9} value={form.cep} onChangeText={set('cep')} />
       <AppInput placeholder="Senha" secureTextEntry value={form.password} onChangeText={set('password')} />
       {loading ? <ActivityIndicator color={Colors.forest} /> : <AppButton title="Cadastrar e entrar" onPress={handleRegister} />}
-      <Link href="/" style={{ color: Colors.forest, textAlign: 'center', marginTop: 16 }}>Já tenho conta</Link>
+      <Link href="/" style={{ color: Colors.violet, fontSize: 17, fontWeight: '700', textAlign: 'center', marginTop: 20 }}>Já tenho conta</Link>
     </Screen>
   );
 }

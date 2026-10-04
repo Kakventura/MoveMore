@@ -21,6 +21,6 @@ export const Screen = ({
 );
 
 const s = StyleSheet.create({
-  content: { padding: 20, width: '100%', alignSelf: 'center' },
+  content: { padding: 20, paddingBottom: 48, width: '100%', alignSelf: 'center' },
   centered: { flexGrow: 1, justifyContent: 'center' },
 });

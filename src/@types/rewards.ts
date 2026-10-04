@@ -1,9 +1,11 @@
+import type { IconName } from '@/components/Icon';
+
 export interface Product {
   id: string;
   name: string;
   description: string;
   cost: number; // custo em pontos
-  emoji: string;
+  icon: IconName; // nome do ícone (MaterialCommunityIcons)
 }
 
 export interface Redemption {

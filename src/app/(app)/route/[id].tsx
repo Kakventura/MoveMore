@@ -43,7 +43,7 @@ export default function RouteDetail() {
   return (
     <Screen>
       {route.points.length > 1 && <RouteMap center={route.points[0]} points={route.points} fit />}
-      <Text style={{ color: Colors.muted, marginBottom: 8 }}>
+      <Text style={{ color: Colors.muted, fontSize: 16, marginVertical: 10 }}>
         {new Date(route.createdAt).toLocaleString('pt-BR')} · {route.points.length} pontos · {formatDistance(route.distanceMeters)}
       </Text>
       <AppInput value={name} onChangeText={setName} autoCapitalize="sentences" />
