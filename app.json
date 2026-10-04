@@ -25,7 +25,15 @@
           "locationWhenInUsePermission": "A localização é usada para registrar o percurso da rota."
         }
       ],
-      "expo-font"
+      "expo-font",
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "A câmera é usada para adicionar uma foto ao seu perfil.",
+          "photosPermission": "As fotos são usadas para escolher uma imagem para o seu perfil.",
+          "microphonePermission": false
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

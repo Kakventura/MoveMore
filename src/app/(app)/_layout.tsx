@@ -19,10 +19,10 @@ function AppNavigation() {
         { label: 'Trocas', path: '/rewards' as const },
       ]
     : [
-        { label: 'Início · minhas rotas', path: '/home' as const },
         { label: 'Gravar rota', path: '/record' as const },
         { label: 'Trocas', path: '/rewards' as const },
         { label: 'Perfil', path: '/profile' as const },
+        { label: 'Minhas rotas', path: '/home' as const },
       ];
 
   if (isWeb && pathname !== '/profile' && pathname !== '/rewards') {

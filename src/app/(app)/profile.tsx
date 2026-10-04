@@ -31,23 +31,7 @@ export default function Profile() {
   return (
     <Screen maxWidth={Platform.OS === 'web' ? 1120 : 560}>
       <View style={{ alignItems: 'center', marginBottom: 24 }}>
-        {Platform.OS === 'web' && user
-          ? <ProfilePhoto userId={user.userId} username={username} />
-          : (
-            <View style={{
-              width: 96,
-              height: 96,
-              borderRadius: 48,
-              backgroundColor: Colors.forest,
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: 12,
-            }}>
-              <Text style={{ color: Colors.white, fontSize: 36, fontWeight: '700' }}>
-                {username.slice(0, 1).toLocaleUpperCase('pt-BR')}
-              </Text>
-            </View>
-          )}
+        {user && <ProfilePhoto userId={user.userId} username={username} />}
         <Text style={{ color: Colors.ink, fontSize: 24, fontWeight: '700' }}>
           {username}
         </Text>
@@ -99,8 +83,7 @@ export default function Profile() {
         <AppButton title="Sair da conta" variant="outline" onPress={signOut} />
       </View>
 
-      {Platform.OS === 'web' && (
-        <View style={{ marginTop: 32 }}>
+      <View style={{ marginTop: 32 }}>
           <Text style={{ color: Colors.ink, fontSize: 20, fontWeight: '700', marginBottom: 12 }}>
             {showingDemoRoutes ? 'Trajetos de exemplo' : 'Caminhos das minhas rotas'}
           </Text>
@@ -124,8 +107,7 @@ export default function Profile() {
               {route.notes ? <Text style={{ color: Colors.muted }}>{route.notes}</Text> : null}
             </View>
           ))}
-        </View>
-      )}
+      </View>
     </Screen>
   );
 }
