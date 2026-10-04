@@ -1,5 +1,46 @@
-import type { ComponentProps } from 'react';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import type { StyleProp, TextStyle } from 'react-native';
+import Svg, { Path } from 'react-native-svg';
+import {
+  mdiAccount, mdiAccountOutline, mdiBagPersonalOutline, mdiBottleTonicOutline, mdiCamera, mdiCameraOutline,
+  mdiCheckCircle, mdiCrosshairsGps, mdiGift, mdiGiftOutline, mdiHatFedora, mdiInformationOutline,
+  mdiMapMarkerDistance, mdiMapMarkerPath, mdiPlay, mdiRoutes, mdiShoeSneaker, mdiStarCircle, mdiStop,
+  mdiTimerOutline, mdiWalk, mdiWatchVariant,
+} from '@mdi/js';
 
-export const Icon = MaterialCommunityIcons;
-export type IconName = ComponentProps<typeof MaterialCommunityIcons>['name'];
+// Ícones desenhados em SVG (não dependem de baixar fontes, funcionam no Expo Go e na web)
+const paths = {
+  'account': mdiAccount,
+  'account-outline': mdiAccountOutline,
+  'bag-personal-outline': mdiBagPersonalOutline,
+  'bottle-tonic-outline': mdiBottleTonicOutline,
+  'camera': mdiCamera,
+  'camera-outline': mdiCameraOutline,
+  'check-circle': mdiCheckCircle,
+  'crosshairs-gps': mdiCrosshairsGps,
+  'gift': mdiGift,
+  'gift-outline': mdiGiftOutline,
+  'hat-fedora': mdiHatFedora,
+  'information-outline': mdiInformationOutline,
+  'map-marker-distance': mdiMapMarkerDistance,
+  'map-marker-path': mdiMapMarkerPath,
+  'play': mdiPlay,
+  'routes': mdiRoutes,
+  'shoe-sneaker': mdiShoeSneaker,
+  'star-circle': mdiStarCircle,
+  'stop': mdiStop,
+  'timer-outline': mdiTimerOutline,
+  'walk': mdiWalk,
+  'watch-variant': mdiWatchVariant,
+};
+
+export type IconName = keyof typeof paths;
+
+interface Props { name: IconName; size?: number; color?: string; style?: StyleProp<TextStyle> }
+
+export function Icon({ name, size = 24, color = '#000' }: Props) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24">
+      <Path d={paths[name]} fill={color} />
+    </Svg>
+  );
+}

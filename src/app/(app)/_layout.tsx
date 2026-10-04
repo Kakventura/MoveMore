@@ -1,29 +1,71 @@
 import { Redirect, Stack, usePathname, useRouter } from 'expo-router';
-import { useState } from 'react';
 import { Platform, Pressable, View } from 'react-native';
 import { AppText as Text } from '@/components/AppText';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Icon, type IconName } from '@/components/Icon';
 import { Colors } from '@/constants/colors';
 import { BrandLogo } from '@/components/BrandLogo';
 import { useAuth } from '@/context/AuthContext';
 import { RewardsProvider } from '@/context/RewardsContext';
 import { RoutesProvider } from '@/context/RoutesContext';
 
+const tabs: { label: string; path: '/home' | '/record' | '/rewards' | '/profile'; icon: IconName }[] = [
+  { label: 'Rotas', path: '/home', icon: 'map-marker-path' },
+  { label: 'Gravar', path: '/record', icon: 'camera-outline' },
+  { label: 'Trocas', path: '/rewards', icon: 'gift-outline' },
+  { label: 'Perfil', path: '/profile', icon: 'account-outline' },
+];
+
+function BottomTabs({ pathname }: { pathname: string }) {
+  const router = useRouter();
+  const insets = useSafeAreaInsets();
+  return (
+    <View style={{
+      flexDirection: 'row',
+      backgroundColor: Colors.white,
+      borderTopWidth: 1,
+      borderTopColor: Colors.line,
+      paddingTop: 8,
+      paddingBottom: Math.max(insets.bottom, 10),
+      paddingHorizontal: 8,
+      shadowColor: Colors.forest,
+      shadowOpacity: 0.08,
+      shadowRadius: 12,
+      shadowOffset: { width: 0, height: -4 },
+      elevation: 12,
+    }}>
+      {tabs.map(({ label, path, icon }) => {
+        const selected = path === '/home' ? pathname === '/home' || pathname.startsWith('/route') : pathname === path;
+        return (
+          <Pressable
+            key={path}
+            accessibilityRole="button"
+            accessibilityLabel={label}
+            accessibilityState={{ selected }}
+            onPress={() => router.navigate(path)}
+            style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+          >
+            <View style={{
+              width: 60, height: 32, borderRadius: 16, alignItems: 'center', justifyContent: 'center',
+              backgroundColor: selected ? '#F3E8FA' : 'transparent',
+            }}>
+              <Icon name={selected ? (icon.replace('-outline', '') as IconName) : icon} size={24} color={selected ? Colors.violet : Colors.muted} />
+            </View>
+            <Text style={{ fontSize: 13, marginTop: 2, fontWeight: selected ? '700' : '400', color: selected ? Colors.violet : Colors.muted }}>
+              {label}
+            </Text>
+          </Pressable>
+        );
+      })}
+    </View>
+  );
+}
+
 function AppNavigation() {
   const pathname = usePathname();
   const router = useRouter();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const insets = useSafeAreaInsets();
   const isWeb = Platform.OS === 'web';
-  const menuItems = isWeb
-    ? [
-        { label: 'Perfil', path: '/profile' as const },
-        { label: 'Trocas', path: '/rewards' as const },
-      ]
-    : [
-        { label: 'Gravar rota', path: '/record' as const },
-        { label: 'Trocas', path: '/rewards' as const },
-        { label: 'Perfil', path: '/profile' as const },
-        { label: 'Minhas rotas', path: '/home' as const },
-      ];
 
   if (isWeb && pathname !== '/profile' && pathname !== '/rewards') {
     return <Redirect href="/rewards" />;
@@ -31,12 +73,12 @@ function AppNavigation() {
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.sand }}>
-      <View style={{ backgroundColor: Colors.white, borderBottomWidth: 1, borderBottomColor: Colors.line }}>
+      <View style={{ backgroundColor: Colors.white, borderBottomWidth: 1, borderBottomColor: Colors.line, paddingTop: isWeb ? 0 : insets.top }}>
         <View style={{
           width: '100%',
           maxWidth: 1120,
           alignSelf: 'center',
-          minHeight: 72,
+          minHeight: isWeb ? 72 : 60,
           paddingHorizontal: 24,
           flexDirection: 'row',
           alignItems: 'center',
@@ -94,49 +136,8 @@ function AppNavigation() {
                 }} />
               </Pressable>
             </View>
-          ) : (
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={menuOpen ? 'Fechar menu' : 'Abrir menu'}
-              accessibilityState={{ expanded: menuOpen }}
-              onPress={() => setMenuOpen((open) => !open)}
-              style={{ padding: 10, borderRadius: 8, backgroundColor: Colors.sand }}
-            >
-              <Text style={{ color: Colors.forest, fontSize: 16, fontWeight: '700' }}>
-                {menuOpen ? 'Fechar ×' : '☰ Menu'}
-              </Text>
-            </Pressable>
-          )}
+          ) : null}
         </View>
-        {!isWeb && menuOpen && (
-          <View style={{ paddingHorizontal: 20, paddingBottom: 12, backgroundColor: Colors.white }}>
-            {menuItems.map(({ label, path }) => {
-              const selected = pathname === path;
-              return (
-                <Pressable
-                  key={path}
-                  accessibilityRole="button"
-                  accessibilityState={{ selected }}
-                  onPress={() => {
-                    setMenuOpen(false);
-                    router.push(path);
-                  }}
-                  style={{
-                    paddingVertical: 13,
-                    paddingHorizontal: 12,
-                    borderRadius: 8,
-                    marginTop: 4,
-                    backgroundColor: selected ? Colors.sand : Colors.white,
-                  }}
-                >
-                  <Text style={{ color: selected ? Colors.violet : Colors.forest, fontWeight: '600' }}>
-                    {label}
-                  </Text>
-                </Pressable>
-              );
-            })}
-          </View>
-        )}
       </View>
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="home" />
@@ -145,6 +146,7 @@ function AppNavigation() {
         <Stack.Screen name="rewards" />
         <Stack.Screen name="profile" />
       </Stack>
+      {!isWeb && <BottomTabs pathname={pathname} />}
     </View>
   );
 }
