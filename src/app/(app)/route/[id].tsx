@@ -11,7 +11,7 @@ import { useRoutes } from '@/context/RoutesContext';
 import { Colors } from '@/constants/colors';
 import { exportRoute } from '@/services/directoryExport';
 import { formatDistance } from '@/utils/distance';
-import { confirmAction, notify } from '@/utils/feedback';
+import { confirmAction, notify } from '@/messages/feedback';
 
 export default function RouteDetail() {
   // Localiza a rota selecionada e mantém nome/observações editáveis na tela.

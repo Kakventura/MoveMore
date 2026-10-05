@@ -8,7 +8,7 @@ import { Screen } from '@/components/Screen';
 import { Colors, Radius, Shadow } from '@/constants/colors';
 import { products } from '@/data/products';
 import { useRewards } from '@/context/RewardsContext';
-import { confirmAction, notify } from '@/utils/feedback';
+import { confirmAction, notify } from '@/messages/feedback';
 import { Icon } from '@/components/Icon';
 
 const card = {

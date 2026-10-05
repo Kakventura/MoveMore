@@ -19,7 +19,7 @@ import { pointsFromDistance } from '@/context/RewardsContext';
 import { exportRoute } from '@/services/directoryExport';
 import { getCurrentPoint, requestLocationAccess, watchRoute } from '@/services/location';
 import { distanceBetween, formatDistance, totalDistance } from '@/utils/distance';
-import { notify } from '@/utils/feedback';
+import { notify } from '@/messages/feedback';
 
 const MIN_STEP = 5;      // metros mínimos entre pontos (ignora o "tremor" do GPS)
 const MAX_ACCURACY = 30; // descarta leituras com erro maior que 30 m (só no celular)

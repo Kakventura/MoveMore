@@ -7,7 +7,7 @@ import * as ImagePicker from 'expo-image-picker';// RECURSO DA CAMERA
 import { AppText as Text } from '@/components/AppText';
 import { Icon } from '@/components/Icon';
 import { Colors } from '@/constants/colors';
-import { notify } from '@/utils/feedback';
+import { notify } from '@/messages/feedback';
 
 interface Props {
   userId: string;

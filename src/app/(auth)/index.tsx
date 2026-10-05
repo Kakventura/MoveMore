@@ -8,7 +8,7 @@ import { AppInput } from '@/components/AppInput';
 import { Screen } from '@/components/Screen';
 import { useAuth } from '@/context/AuthContext';
 import { Colors } from '@/constants/colors';
-import { authErrorMessage, notify } from '@/utils/feedback';
+import { authErrorMessage, notify } from '@/messages/feedback';
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // FORMATAÇÃO E-MAIL
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);

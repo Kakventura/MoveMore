@@ -11,7 +11,7 @@ import { useRoutes } from '@/context/RoutesContext';
 import { Colors, Radius } from '@/constants/colors';
 import { pickDirectory } from '@/services/directoryExport';
 import { formatDistance } from '@/utils/distance';
-import { notify } from '@/utils/feedback';
+import { notify } from '@/messages/feedback';
 import { useRewards } from '@/context/RewardsContext';
 
 export default function Home() {
