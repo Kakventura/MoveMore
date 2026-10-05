@@ -105,7 +105,8 @@ export default function Record() {
       const route = await createRoute({ name: name.trim(), notes, points, distanceMeters: totalDistance(points) });
       try { notify(`Arquivo gravado: ${await exportRoute(route)}`); }
       catch (e) { notify(`Rota salva no app, mas não foi gravada na pasta: ${(e as Error).message}`); }
-      router.back();
+      if (router.canGoBack()) router.back();
+        else router.replace('/home');;
     } finally { setSaving(false); }
   }
 

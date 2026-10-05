@@ -13,8 +13,7 @@ export default function RootLayout() {
     PTSansNarrowBold: PTSansNarrow_700Bold,
   });
 
-  if (fontError) throw fontError;
-  if (!fontsLoaded) return null;
+ if (!fontsLoaded && !fontError) return null;
 
   return (
     <AuthProvider>
