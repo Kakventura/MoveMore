@@ -1,3 +1,5 @@
+// Criado para evitar repetição de código no perfil e na tela de gravação, que mostram estatísticas do usuário.
+// Papel: exibir um indicador composto por ícone, rótulo e valor com layout padronizado.
 import { View } from 'react-native';
 import { AppText as Text } from '@/components/AppText';
 import { Icon, type IconName } from '@/components/Icon';

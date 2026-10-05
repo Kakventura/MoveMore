@@ -1,3 +1,5 @@
+// Papel: definir os formatos de catálogo de produtos e de resgates de pontos.
+// Motivo: compartilhar contratos tipados entre telas, contextos e armazenamento de recompensas.
 import type { IconName } from '@/components/Icon';
 
 export interface Product {

@@ -1,3 +1,5 @@
+// Papel: organizar a navegação da área autenticada e instalar os contextos de rotas e recompensas.
+// Motivo: manter menu, proteção de acesso e dados compartilhados num ponto comum às telas logadas.
 import { Redirect, Stack, usePathname, useRouter } from 'expo-router';
 import { Platform, Pressable, View } from 'react-native';
 import { AppText as Text } from '@/components/AppText';
@@ -17,6 +19,7 @@ const tabs: { label: string; path: '/home' | '/record' | '/rewards' | '/profile'
 ];
 
 function BottomTabs({ pathname }: { pathname: string }) {
+  // Desenha a navegação inferior mobile e destaca a seção correspondente à rota atual.
   const router = useRouter();
   const insets = useSafeAreaInsets();
   return (
@@ -62,6 +65,7 @@ function BottomTabs({ pathname }: { pathname: string }) {
 }
 
 function AppNavigation() {
+  // Adapta a navegação entre navegador e celular e registra as telas da área logada.
   const pathname = usePathname();
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -153,6 +157,7 @@ function AppNavigation() {
 
 // Guarda de rota: sem sessão, volta para o login
 export default function AppLayout() {
+  // Impede acesso à área principal sem sessão e fornece os estados usados por suas telas.
   const { isAuthenticated } = useAuth();
   if (!isAuthenticated) return <Redirect href="/" />;
   return (

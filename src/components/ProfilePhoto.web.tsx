@@ -1,3 +1,7 @@
+// CAMERA DO COMPUTADOR - GETMEDIA E TRATATIVAS DE ERROS
+// Papel: implementar a foto de perfil específica para navegadores com webcam ou arquivo local.
+// Motivo: as APIs de câmera/arquivo web diferem das APIs nativas usadas no celular.
+
 import { useEffect, useRef, useState, type ChangeEvent, type CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
 import { Icon } from '@/components/Icon';
@@ -63,6 +67,7 @@ const bigButton: CSSProperties = {
 };
 
 export function ProfilePhoto({ userId, username }: Props) {
+  // Persiste a imagem no armazenamento do navegador e gerencia menus e recursos de câmera.
   const [photo, setPhoto] = useState('');
   const [cameraOpen, setCameraOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -97,6 +102,7 @@ export function ProfilePhoto({ userId, username }: Props) {
   }, [cameraOpen]);
 
   async function startCamera() {
+    // Solicita acesso à webcam e inicia uma prévia para a captura.
     setMenuOpen(false);
     setError('');
     if (!navigator.mediaDevices?.getUserMedia) {
@@ -118,12 +124,14 @@ export function ProfilePhoto({ userId, username }: Props) {
   }
 
   function stopCamera() {
+    // Libera as faixas da câmera para que o dispositivo não fique ocupado.
     streamRef.current?.getTracks().forEach((track) => track.stop());
     streamRef.current = null;
     setCameraOpen(false);
   }
 
   function removePhoto() {
+    // Apaga do armazenamento local a foto vinculada a este usuário.
     try {
       window.localStorage.removeItem(storageKey);
       setPhoto('');
@@ -136,6 +144,7 @@ export function ProfilePhoto({ userId, username }: Props) {
   }
 
   function savePhoto(dataUrl: string) {
+    // Salva imagem em formato de dados e atualiza a visualização do perfil.
     try {
       window.localStorage.setItem(storageKey, dataUrl);
       setPhoto(dataUrl);
@@ -147,6 +156,7 @@ export function ProfilePhoto({ userId, username }: Props) {
   }
 
   function capturePhoto() {
+    // Captura o quadro atual da webcam, reduz suas dimensões e grava em JPEG.
     const video = videoRef.current;
     if (!video || !video.videoWidth || !video.videoHeight) {
       setError('A câmera ainda está iniciando. Tente novamente em instantes.');
@@ -169,6 +179,7 @@ export function ProfilePhoto({ userId, username }: Props) {
   }
 
   function handleFile(event: ChangeEvent<HTMLInputElement>) {
+    // Lê uma imagem escolhida no computador e a encaminha para persistência local.
     const file = event.currentTarget.files?.[0];
     event.currentTarget.value = '';
     if (!file) return;

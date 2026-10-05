@@ -1,3 +1,5 @@
+// Papel: exibir, editar, exportar ou excluir uma rota identificada pelo parâmetro da URL.
+// Motivo: cada registro precisa de uma tela própria para consultar detalhes e administrar seus dados.
 import { useEffect, useState } from 'react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { AppText as Text } from '@/components/AppText';
@@ -12,6 +14,7 @@ import { formatDistance } from '@/utils/distance';
 import { confirmAction, notify } from '@/utils/feedback';
 
 export default function RouteDetail() {
+  // Localiza a rota selecionada e mantém nome/observações editáveis na tela.
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const { routes, updateRoute, deleteRoute } = useRoutes();
@@ -24,18 +27,21 @@ export default function RouteDetail() {
   if (!route) return <Screen><Text>Rota não encontrada.</Text></Screen>;
 
   async function handleUpdate() {
+    // Valida o nome e salva apenas os campos editáveis da rota.
     if (!name.trim()) return notify('O nome não pode ficar vazio.');
     await updateRoute(route!.id, { name: name.trim(), notes });
     notify('Rota atualizada.');
   }
 
   async function handleDelete() {
+    // Pede confirmação antes de excluir a rota e retornar à tela anterior.
     if (!(await confirmAction(`Excluir "${route!.name}"?`))) return;
     await deleteRoute(route!.id);
     router.back();
   }
 
   async function handleExport() {
+    // Exporta novamente o registro para a pasta escolhida pelo usuário.
     try { notify(`Arquivo gravado: ${await exportRoute(route!)}`); }
     catch (e) { notify((e as Error).message); }
   }

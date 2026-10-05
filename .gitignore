@@ -1,3 +1,5 @@
+# Papel: excluir dependências, saídas geradas, logs e segredos locais do controle de versão.
+# Motivo: manter o repositório enxuto e evitar enviar arquivos específicos da máquina.
 node_modules/
 .expo/
 dist/

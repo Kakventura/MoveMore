@@ -1,7 +1,10 @@
+// INTEGRAÇÃO DO GPS
+// Motivo: separar permissões e leitura contínua de localização da lógica da tela de gravação.
 import * as Location from 'expo-location';
 import type { RoutePoint } from '@/@types/route';
 
 export async function requestLocationAccess() {
+  // Confirma permissão em primeiro plano e disponibilidade dos serviços de localização.
   const { granted } = await Location.requestForegroundPermissionsAsync();
   if (!granted) throw new Error('Acesso à localização negado. Autorize nas configurações.');
   if (!(await Location.hasServicesEnabledAsync())) throw new Error('Ative o GPS do dispositivo.');
@@ -20,6 +23,7 @@ const timeout = (ms: number) =>
 // Posição inicial para centralizar o mapa: usa a última posição recente (rápido)
 // e, se não houver, pede uma leitura nova com limite de tempo.
 export async function getCurrentPoint(): Promise<RoutePoint> {
+  // Tenta primeiro uma posição recente e recorre a uma leitura nova com limite de espera.
   try {
     const recent = await Location.getLastKnownPositionAsync({ maxAge: 60000 });
     if (recent) return toPoint(recent);
@@ -37,6 +41,7 @@ export async function getCurrentPoint(): Promise<RoutePoint> {
 
 // Retorna a assinatura; quem chama deve usar subscription.remove() para parar.
 export async function watchRoute(onPoint: (p: RoutePoint) => void) {
+  // Entrega posições ao chamador até que ele remova a assinatura retornada.
   await requestLocationAccess();
   return Location.watchPositionAsync(
     { accuracy: Location.Accuracy.High, distanceInterval: 5, timeInterval: 3000 },

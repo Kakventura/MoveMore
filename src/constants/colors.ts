@@ -1,3 +1,5 @@
+// Papel: reunir a paleta, os raios de borda e a sombra usados pela interface.
+// Motivo: permitir que telas e componentes compartilhem uma identidade visual consistente.
 export const Colors = {
   forest: '#51166A',
   moss: '#BD2693',

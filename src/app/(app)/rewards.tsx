@@ -1,3 +1,5 @@
+// Papel: mostrar saldo, catálogo de prêmios e histórico de resgates.
+// Motivo: separar a experiência de consulta e troca de pontos da gravação das rotas.
 import { Platform, useWindowDimensions, View } from 'react-native';
 import { AppText as Text } from '@/components/AppText';
 import type { Product } from '@/@types/rewards';
@@ -22,6 +24,7 @@ const card = {
 };
 
 export default function Rewards() {
+  // Calcula a disposição responsiva e obtém saldo e operações do contexto de recompensas.
   const { balance, earned, spent, redemptions, redeem } = useRewards();
   const { width } = useWindowDimensions();
   const isWeb = Platform.OS === 'web';
@@ -29,6 +32,7 @@ export default function Rewards() {
   const cardWidth = isWeb ? `${100 / columns - 2}%` as `${number}%` : '100%' as const;
 
   async function handleRedeem(product: Product) {
+    // Confirma a troca, solicita o resgate ao contexto e informa o resultado ao usuário.
     if (!(await confirmAction(`Trocar ${product.cost} pontos por "${product.name}"?`))) return;
     try {
       await redeem(product);

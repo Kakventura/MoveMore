@@ -1,3 +1,5 @@
+// Papel: exibir identidade, saldo, estatísticas e rotas associadas à conta.
+// Motivo: oferecer uma visão consolidada da atividade e acesso para encerrar a sessão.
 import { ActivityIndicator, Platform, View } from 'react-native';
 import { AppText as Text } from '@/components/AppText';
 import { AppButton } from '@/components/AppButton';
@@ -15,6 +17,7 @@ import { demoRoutes } from '@/data/demoRoutes';
 import { formatDistance } from '@/utils/distance';
 
 export default function Profile() {
+  // Reúne informações dos contextos; na web, usa trajetos demonstrativos quando não há rotas locais.
   const { user, signOut } = useAuth();
   const { routes, loading } = useRoutes();
   const { earned, balance, redemptions } = useRewards();

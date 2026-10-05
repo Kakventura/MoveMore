@@ -1,3 +1,5 @@
+// Papel: renderizar mapas e trajetos diretamente no navegador usando Leaflet e OpenStreetMap.
+// Motivo: usar APIs web de mapa na plataforma web em vez de carregar uma WebView nativa.
 import { createElement, useEffect, useRef, useState } from 'react';
 import { AppText as Text } from '@/components/AppText';
 import type { RoutePoint } from '@/@types/route';
@@ -10,6 +12,7 @@ let leafletPromise: Promise<any> | null = null;
 
 // Carrega o Leaflet uma única vez (mapa OpenStreetMap, não precisa de chave de API)
 function loadLeaflet(): Promise<any> {
+  // Baixa e compartilha a instância do Leaflet, evitando carregamentos duplicados.
   const w = window as any;
   if (w.L) return Promise.resolve(w.L);
   if (!leafletPromise) {
@@ -29,6 +32,7 @@ function loadLeaflet(): Promise<any> {
 }
 
 export function RouteMap({ center, points, fit = false }: Props) {
+  // Cria o mapa uma vez e atualiza linha, marcador e enquadramento quando os dados mudam.
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<any>(null);
   const line = useRef<any>(null);

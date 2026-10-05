@@ -1,3 +1,6 @@
+// Papel: oferecer login e cadastro adaptados para celular e navegador.
+// Motivo: centralizar a entrada e a criação de conta antes de liberar a área autenticada.
+//TELA DE LOGIN
 import { useEffect, useRef, useState } from 'react';
 import { Platform, useWindowDimensions, ActivityIndicator, Animated, Pressable, View } from 'react-native';
 import { AppText as Text } from '@/components/AppText';
@@ -7,7 +10,7 @@ import { useAuth } from '@/context/AuthContext';
 import { Colors } from '@/constants/colors';
 import { authErrorMessage, notify } from '@/utils/feedback';
 
-const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // FORMATAÇÃO E-MAIL
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 const LOGO = require('../../../assets/images/Logo.png');
 
@@ -24,6 +27,7 @@ function HoverAction({
   textColor: string;
   outlined?: boolean;
 }) {
+  // Botão com animação de foco/hover usado nas ações do formulário.
   const progress = useRef(new Animated.Value(0)).current;
   const animateTo = (value: number) => {
     Animated.timing(progress, {
@@ -69,6 +73,7 @@ function HoverAction({
 }
 
 function PasswordField({ value, onChangeText }: { value: string; onChangeText: (v: string) => void }) {
+  // Campo de senha com controle para alternar entre texto oculto e visível.
   const [visible, setVisible] = useState(false);
   return (
     <View>
@@ -92,6 +97,7 @@ function PasswordField({ value, onChangeText }: { value: string; onChangeText: (
 }
 
 function FloatingLogo({ width, height }: { width: number; height: number }) {
+  // Mantém a marca em movimento sutil para compor o painel de apresentação.
   const bob = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -116,6 +122,7 @@ function FloatingLogo({ width, height }: { width: number; height: number }) {
 }
 
 export default function Login() {
+  // Controla os modos de login/cadastro, valida os dados e chama o contexto de autenticação.
   const { signIn, signUp } = useAuth();
   const { width: viewportWidth } = useWindowDimensions();
   const [registering, setRegistering] = useState(false);
@@ -136,6 +143,7 @@ export default function Login() {
   }, [registering, transition]);
 
   async function handleSubmit() {
+    // Valida os campos do modo atual e envia a operação adequada com estado de carregamento.
     if (registering) {
       const cep = form.cep.replace(/\D/g, '');
       if (!form.username.trim() || !form.password) return notify('Preencha usuário e senha.');

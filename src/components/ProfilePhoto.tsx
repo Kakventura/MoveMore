@@ -1,7 +1,9 @@
+// USO DA CAMERA E GALERIA DE FOTOS PARA PERFIL DO USUÁRIO MOBILE
+// Motivo: oferecer seleção/captura nativa e persistir a imagem localmente no dispositivo.
 import { useEffect, useState } from 'react';
 import { Alert, Image, Pressable, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from 'expo-image-picker';// RECURSO DA CAMERA
 import { AppText as Text } from '@/components/AppText';
 import { Icon } from '@/components/Icon';
 import { Colors } from '@/constants/colors';
@@ -13,6 +15,7 @@ interface Props {
 }
 
 export function ProfilePhoto({ userId, username }: Props) {
+  // Carrega ou altera a foto vinculada à conta; na ausência dela, mostra as iniciais.
   const [photo, setPhoto] = useState<string | null>(null);
   const storageKey = `@diario-rotas/${userId}/profile-photo`;
   const initials = username.slice(0, 1).toLocaleUpperCase('pt-BR') || '?';
@@ -26,6 +29,7 @@ export function ProfilePhoto({ userId, username }: Props) {
   }, [storageKey]);
 
   async function choosePhoto(useCamera: boolean) {
+    // Abre câmera ou galeria, reduz a imagem e salva o resultado para este usuário.
     try {
       const result = useCamera
         ? await ImagePicker.launchCameraAsync({
@@ -61,6 +65,7 @@ export function ProfilePhoto({ userId, username }: Props) {
   }
 
   function openOptions() {
+    // Exibe as ações disponíveis para adicionar, tirar ou remover a foto.
     const options = [
       { text: 'Tirar foto', onPress: () => { void choosePhoto(true); } },
       { text: 'Escolher foto', onPress: () => { void choosePhoto(false); } },

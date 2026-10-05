@@ -1,3 +1,5 @@
+// Papel: fornecer o catálogo local de produtos e seus custos em pontos.
+// Motivo: permitir que a tela de recompensas apresente opções enquanto não há catálogo remoto.
 import type { Product } from '@/@types/rewards';
 
 // MOCK do catálogo de produtos (simula a tabela "produtos" do banco)

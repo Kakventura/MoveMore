@@ -1,3 +1,5 @@
+// Papel: criar um contêiner visual de cartão com estilo compartilhado e conteúdo flexível.
+// Motivo: padronizar blocos de informação sem repetir bordas, espaçamento e sombra.
 import type { ReactNode } from 'react';
 import { View, type ViewStyle } from 'react-native';
 import { Colors, Radius, Shadow } from '@/constants/colors';

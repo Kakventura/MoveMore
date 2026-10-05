@@ -1,3 +1,5 @@
+// Papel: apresentar o início da área autenticada com saldo, atalhos e lista de rotas.
+// Motivo: reunir as ações mais frequentes do usuário num ponto de entrada após o login.
 import { useRouter } from 'expo-router';
 import { ActivityIndicator, Pressable, View } from 'react-native';
 import { AppText as Text } from '@/components/AppText';
@@ -13,12 +15,14 @@ import { notify } from '@/utils/feedback';
 import { useRewards } from '@/context/RewardsContext';
 
 export default function Home() {
+  // Combina dados dos contextos com a navegação para montar o resumo pessoal.
   const router = useRouter();
   const { user, signOut } = useAuth();
   const { routes, loading } = useRoutes();
   const { balance } = useRewards();
 
   async function chooseFolder() {
+    // Permite escolher a pasta em que as próximas rotas exportadas serão gravadas.
     try { notify(`Pasta selecionada: ${await pickDirectory()}`); }
     catch (e) { notify((e as Error).message); }
   }

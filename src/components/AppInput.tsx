@@ -1,8 +1,11 @@
+// Papel: fornecer um campo de texto compartilhado com cores e estado de foco do app.
+// Motivo: manter formulários consistentes sem repetir a configuração do TextInput em cada tela.
 import { useState } from 'react';
 import { StyleSheet, TextInput, type TextInputProps } from 'react-native';
 import { Colors, Radius } from '@/constants/colors';
 
 export const AppInput = ({ style, onFocus, onBlur, ...props }: TextInputProps) => {
+  // Encaminha os eventos originais enquanto atualiza o destaque visual do campo.
   const [focused, setFocused] = useState(false);
   return (
     <TextInput

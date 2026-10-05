@@ -1,3 +1,5 @@
+// Papel: apresentar um formulário de cadastro independente para criação de conta.
+// Motivo: disponibilizar o cadastro como rota própria além da alternância existente na tela inicial.
 import { useState } from 'react';
 import { Link } from 'expo-router';
 import { ActivityIndicator } from 'react-native';
@@ -12,12 +14,14 @@ import { authErrorMessage, notify } from '@/utils/feedback';
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function Register() {
+  // Controla os campos, valida e solicita o cadastro pelo contexto de autenticação.
   const { signUp } = useAuth();
   const [form, setForm] = useState({ username: '', email: '', cep: '', password: '' });
   const [loading, setLoading] = useState(false);
   const set = (k: keyof typeof form) => (v: string) => setForm((f) => ({ ...f, [k]: v }));
 
   async function handleRegister() {
+    // Normaliza e valida usuário, e-mail e CEP antes de enviar os dados.
     const cep = form.cep.replace(/\D/g, '');
     if (!form.username.trim() || !form.password) return notify('Preencha usuário e senha.');
     if (!EMAIL.test(form.email.trim())) return notify('Informe um e-mail válido.');

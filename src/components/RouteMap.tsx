@@ -1,3 +1,5 @@
+// Papel: renderizar mapas e trajetos no Android usando Leaflet dentro de uma WebView.
+// Motivo: compartilhar a visualização de rotas no app nativo sem implementar mapas nativos distintos.
 import { useEffect, useRef, useState, type ComponentType } from 'react';
 import { View } from 'react-native';
 import { WebView as RNWebView } from 'react-native-webview';
@@ -38,6 +40,7 @@ function update(d) {
 </script></body></html>`;
 
 export function RouteMap({ center, points, fit = false }: Props) {
+  // Envia ao mapa embarcado os pontos atuais e escolhe entre acompanhar a posição ou enquadrar o trajeto.
   const web = useRef<{ injectJavaScript: (js: string) => void }>(null);
   const [loaded, setLoaded] = useState(false);
 

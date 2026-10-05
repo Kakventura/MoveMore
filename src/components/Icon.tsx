@@ -1,3 +1,5 @@
+// Papel: fornecer ícones SVG tipados a partir do catálogo Material Design Icons.
+// Motivo: usar um conjunto visual comum em Android e web sem depender de fontes de ícones.
 import type { StyleProp, TextStyle } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import {
@@ -38,6 +40,7 @@ export type IconName = keyof typeof paths;
 interface Props { name: IconName; size?: number; color?: string; style?: StyleProp<TextStyle> }
 
 export function Icon({ name, size = 24, color = '#000' }: Props) {
+  // Resolve o nome conhecido para seu caminho SVG e renderiza no tamanho/cor pedidos.
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24">
       <Path d={paths[name]} fill={color} />

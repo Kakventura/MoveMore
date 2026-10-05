@@ -1,3 +1,5 @@
+// RESPONSIVIDADE DAS TELAS
+// Motivo: centralizar rolagem, fundo e largura máxima para manter telas legíveis em cada dispositivo.
 import type { ReactNode } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { Colors } from '@/constants/colors';

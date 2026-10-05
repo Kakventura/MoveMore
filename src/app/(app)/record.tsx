@@ -1,3 +1,5 @@
+// Papel: acompanhar uma caminhada pelo GPS, mostrar suas métricas e salvar a rota.
+// Motivo: concentrar a gravação ao vivo e a conversão do trajeto em um registro reutilizável.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { ActivityIndicator, Platform, Pressable, View } from 'react-native';
@@ -23,12 +25,14 @@ const MIN_STEP = 5;      // metros mínimos entre pontos (ignora o "tremor" do G
 const MAX_ACCURACY = 30; // descarta leituras com erro maior que 30 m (só no celular)
 
 const formatTime = (total: number) => {
+  // Converte segundos em relógio legível, omitindo as horas quando são zero.
   const h = Math.floor(total / 3600), m = Math.floor((total % 3600) / 60), sec = total % 60;
   const mm = String(m).padStart(2, '0'), ss = String(sec).padStart(2, '0');
   return h > 0 ? `${h}:${mm}:${ss}` : `${mm}:${ss}`;
 };
 
 export default function Record() {
+  // Coordena permissões, pontos recebidos do GPS, cronômetro e persistência da rota.
   const router = useRouter();
   const { createRoute } = useRoutes();
   const subscription = useRef<LocationSubscription | null>(null);
@@ -45,6 +49,7 @@ export default function Record() {
 
   // Pede permissão e, se aceita, pega a posição para mostrar o mapa
   const locate = useCallback(async () => {
+    // Confirma acesso ao GPS e obtém uma posição inicial para centralizar o mapa.
     setLocating(true);
     setPermissionError('');
     try {
@@ -76,6 +81,7 @@ export default function Record() {
   }, [tracking]);
 
   async function start() {
+    // Inicia a assinatura do GPS e filtra leituras imprecisas ou deslocamentos insignificantes.
     try {
       setPoints([]);
       setSeconds(0);
@@ -92,12 +98,14 @@ export default function Record() {
   }
 
   function stop() {
+    // Encerra a assinatura para interromper a coleta sem descartar os pontos já registrados.
     subscription.current?.remove();
     subscription.current = null;
     setTracking(false);
   }
 
   async function save() {
+    // Persiste os dados da caminhada e tenta também exportar uma cópia em arquivo JSON.
     if (saving) return;
     if (!name.trim()) return notify('Dê um nome para a rota.');
     setSaving(true);

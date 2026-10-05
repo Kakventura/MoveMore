@@ -1,3 +1,5 @@
+// Papel: fornecer trajetos estáticos usados como demonstração visual na web.
+// Motivo: ilustrar mapas de perfil quando o navegador não possui rotas locais do celular.
 import type { RouteRecord } from '@/@types/route';
 
 export const demoRoutes: RouteRecord[] = [

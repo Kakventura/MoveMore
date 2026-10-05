@@ -1,3 +1,5 @@
+// Papel: padronizar os botões de ação e seus estilos visuais.
+// Motivo: garantir a mesma aparência e comportamento para ações primárias, secundárias e destrutivas.
 import { Pressable, StyleSheet } from 'react-native';
 import { AppText as Text } from '@/components/AppText';
 import { Colors, Radius } from '@/constants/colors';
@@ -5,6 +7,7 @@ import { Colors, Radius } from '@/constants/colors';
 interface Props { title: string; onPress: () => void; variant?: 'primary' | 'danger' | 'outline' | 'soft'; disabled?: boolean }
 
 export function AppButton({ title, onPress, variant = 'primary', disabled }: Props) {
+  // Aplica a variante solicitada e representa estados pressionado e desabilitado.
   return (
     <Pressable accessibilityRole="button" disabled={disabled} onPress={onPress}
       style={({ pressed }) => [s.base, variant === 'danger' && s.danger, variant === 'outline' && s.outline,

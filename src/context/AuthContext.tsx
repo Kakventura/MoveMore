@@ -1,3 +1,5 @@
+// Papel: disponibilizar sessão e operações de autenticação para toda a árvore de telas.
+// Motivo: evitar repassar usuário e funções de login/cadastro manualmente entre componentes.
 import { createContext, useContext, useMemo, useState, type ReactNode } from 'react';
 import {
   loginAuthUser, logoutAuthUser, registerAuthUser,
@@ -12,9 +14,12 @@ interface AuthContextData {
   signOut: () => Promise<void>;
 }
 
+
+// CONTEXTO DE AUTENTICAÇÃO DO USUÁRIO
 const AuthContext = createContext<AuthContextData | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  // Mantém o usuário autenticado em memória e publica operações para os consumidores.
   const [user, setUser] = useState<AuthenticatedUser | null>(null);
 
   const value = useMemo<AuthContextData>(() => ({
@@ -35,6 +40,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 }
 
 export function useAuth() {
+  // Acesso tipado ao contexto; falha claramente se o provider não envolver o componente.
   const ctx = useContext(AuthContext);
   if (!ctx) throw new Error('useAuth requer AuthProvider.');
   return ctx;

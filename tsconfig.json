@@ -1,3 +1,5 @@
+// Papel: configurar as regras e os caminhos de resolução do TypeScript.
+// Motivo: habilitar checagem estrita e imports curtos com o alias @/src.
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": { "strict": true, "paths": { "@/*": ["./src/*"] } },
